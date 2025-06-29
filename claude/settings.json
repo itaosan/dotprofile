@@ -1,0 +1,33 @@
+{
+  "cleanupPeriodDays": 60,
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(cargo:*)",
+      "Bash(curl:*)",
+      "Bash(jq:*)",
+      "Read(**)",
+      "Edit(~/**)",
+      "WebFetch(domain:*)",
+      "Grep(**)",
+      "Glob(**)",
+      "LS(**)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo rm:*)",
+      "Bash(format:*)"
+    ]
+  },
+  "model": "opus",
+  "preferredNotifChannel": "terminal_bell",
+  "ignorePatterns": [
+    "node_modules/**",
+    ".git/**",
+    "*.log",
+    "dist/**",
+    "build/**"
+  ]
+}
