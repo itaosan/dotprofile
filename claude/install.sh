@@ -8,9 +8,12 @@
 # fi
 
 # 既存ファイルがあっても強制的に置き換える
-ln -sf "$PWD/CLAUDE.md" "$XDG_CONFIG_HOME/CLAUDE.md"
+rm -rf "$XDG_CONFIG_HOME/CLAUDE.md"
+ln -s "$PWD/CLAUDE.md" "$XDG_CONFIG_HOME/CLAUDE.md"
 
-ln -sf "$PWD/commands" "$XDG_CONFIG_HOME/commands"
+rm -rf "$XDG_CONFIG_HOME/commands"
+ln -s "$PWD/commands" "$XDG_CONFIG_HOME/commands"
 
-ln -sf "$PWD/settings.json" "$XDG_CONFIG_HOME/settings.json"
+rm -rf "$XDG_CONFIG_HOME/settings.json"
+ln -s "$PWD/settings.json" "$XDG_CONFIG_HOME/settings.json"
 
