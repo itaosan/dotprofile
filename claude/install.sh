@@ -1,23 +1,16 @@
 #!/bin/bash
 
-: ${XDG_CONFIG_HOME:="$HOME/.config"}
+#: ${XDG_CONFIG_HOME:="$HOME/.config"}
+: ${XDG_CONFIG_HOME:="$HOME/.claude"}
 
-if [ ! -e "$XDG_CONFIG_HOME/claude" ]; then
-  mkdir -p "$XDG_CONFIG_HOME/claude"
-fi
+# if [ ! -e "$XDG_CONFIG_HOME/claude" ]; then
+#   mkdir -p "$XDG_CONFIG_HOME/claude"
+# fi
 
-if [[ ! -e "$XDG_CONFIG_HOME/claude/CLAUDE.md" ]]; then
-  ln -s "$PWD/CLAUDE.md" "$XDG_CONFIG_HOME/claude/CLAUDE.md"
-fi
-if [[ ! -e "$HOME/.claude" ]]; then
-  ln -s "$PWD/CLAUDE.md" "$HOME/.claude"
-fi
+# 既存ファイルがあっても強制的に置き換える
+ln -sf "$PWD/CLAUDE.md" "$XDG_CONFIG_HOME/CLAUDE.md"
 
-if [[ ! -e "$XDG_CONFIG_HOME/claude/commands" ]]; then
-  ln -s "$PWD/commands" "$XDG_CONFIG_HOME/claude/commands"
-fi
+ln -sf "$PWD/commands" "$XDG_CONFIG_HOME/commands"
 
-if [[ ! -e "$XDG_CONFIG_HOME/claude/settings.json" ]]; then
-  ln -s "$PWD/settings.json" "$XDG_CONFIG_HOME/claude/settings.json"
-fi
+ln -sf "$PWD/settings.json" "$XDG_CONFIG_HOME/settings.json"
 
