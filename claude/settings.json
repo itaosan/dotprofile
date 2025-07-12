@@ -18,16 +18,13 @@
     "deny": [
       "Bash(rm -rf /)",
       "Bash(sudo rm:*)",
-      "Bash(format:*)"
+      "Bash(format:*)",
+      "Read(node_modules/**)",
+      "Read(.git/**)",
+      "Read(*.log)",
+      "Read(dist/**)",
+      "Read(build/**)"
     ]
   },
-  "model": "opus",
-  "preferredNotifChannel": "terminal_bell",
-  "ignorePatterns": [
-    "node_modules/**",
-    ".git/**",
-    "*.log",
-    "dist/**",
-    "build/**"
-  ]
+  "model": "opus"
 }
