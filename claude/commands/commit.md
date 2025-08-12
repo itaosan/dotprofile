@@ -12,6 +12,8 @@ To create a commit, just type:
 Or with options:
 ```
 /commit --no-verify
+/commit -p
+/commit -p --no-verify
 ```
 
 ## What This Command Does
@@ -24,6 +26,7 @@ Or with options:
 5. Analyzes the diff to determine if multiple distinct logical changes are present
 6. If multiple distinct changes are detected, suggests breaking the commit into multiple smaller commits
 7. For each commit (or the single commit if not split), creates a commit message using emoji conventional commit format
+8. If `-p` option is specified, pushes the commits to the remote repository with `git push`
 
 ## Best Practices for Commits
 
@@ -149,6 +152,7 @@ Example of splitting commits:
 ## Command Options
 
 - `--no-verify`: Skip running the pre-commit checks (lint, build, generate:docs)
+- `-p`: Push the commits to the remote repository after committing
 
 ## Important Notes
 
