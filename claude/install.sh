@@ -14,6 +14,9 @@ ln -s "$PWD/CLAUDE.md" "$XDG_CONFIG_HOME/CLAUDE.md"
 rm -rf "$XDG_CONFIG_HOME/commands"
 ln -s "$PWD/commands" "$XDG_CONFIG_HOME/commands"
 
+rm -rf "$XDG_CONFIG_HOME/agents"
+ln -s "$PWD/agents" "$XDG_CONFIG_HOME/agents"
+
 rm -rf "$XDG_CONFIG_HOME/settings.json"
 ln -s "$PWD/settings.json" "$XDG_CONFIG_HOME/settings.json"
 
