@@ -1,0 +1,33 @@
+[tools]
+node = "24"
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
+
+[env]
+AWS_REGION = "ap-northeast-1"
+_.file = "./.env"
+
+[tasks]
+
+[tasks.setup]
+description = "mise とツールの初期セットアップ"
+run = "mise install"
+
+[tasks.list-tools]
+alias = "lt"
+description = "インストール済みツールの一覧を表示"
+run = "mise list"
+
+[tasks.update-tools]
+alias = "up"
+description = "管理ツール/パッケージを最新化"
+run = "mise upgrade"
+
+[tasks.aws-sso-login]
+alias = "al"
+description = "AWS SSOでログイン (必要な人のみ)"
+run = "aws sso login"
+
+[tasks.example]
+description = "タスクの雛形: ここに任意のコマンド"
+run = "echo hello from mise"
