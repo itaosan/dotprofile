@@ -1,0 +1,18 @@
+model = "gpt-5-codex"
+model_reasoning_effort = "medium"
+
+[projects."/home/syu/fortune-bell"]
+trust_level = "trusted"
+
+[tools]
+web_search = true
+
+[mcp_servers.serena]
+command = "uvx"
+args = ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+
+notify = ["bash", "windows-notify.sh -t 'Codex Cli' -m 'タスクが終わりました'"]
