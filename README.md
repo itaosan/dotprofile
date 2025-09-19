@@ -33,3 +33,5 @@ chmod +x ai-coding/install.sh
 - 記事: https://zenn.dev/dress_code/articles/a99ff13634bbe6
 - GitHub: https://github.com/jdx/mise
 - Docs: https://mise.jdx.dev/
+
+> 注: 設定ファイルは `mise/mise.toml` に配置。互換のためルートにシンボリックリンク `mise.toml` を配置しています。
