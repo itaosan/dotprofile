@@ -15,4 +15,4 @@ args = ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server", "
 command = "npx"
 args = ["-y", "@upstash/context7-mcp"]
 
-notify = ["bash", "windows-notify.sh -t 'Codex Cli' -m 'タスクが終わりました'"]
+notify = ["powershell.exe", "-NoProfile", "-Command", "New-BurntToastNotification -Text 'Codex CLI','タスクが終わりました'"]
