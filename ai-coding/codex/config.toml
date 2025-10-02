@@ -15,4 +15,10 @@ args = ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server", "
 command = "npx"
 args = ["-y", "@upstash/context7-mcp"]
 
+[mcp_servers.chrome-devtools]
+type = "stdio"
+command = "npx"
+args = ["chrome-devtools-mcp@latest", "--isolated=true","--headless=true"]
+description = "Chrome DevTools MCP: run performance traces, inspect the DOM, and perform real-time debugging of your web pages — useful for browser automation, end-to-end testing, and capturing page artifacts."
+
 notify = ["powershell.exe", "-NoProfile", "-Command", "New-BurntToastNotification -Text 'Codex CLI','タスクが終わりました'"]
