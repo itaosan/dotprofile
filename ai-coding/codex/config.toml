@@ -4,8 +4,8 @@ model_reasoning_effort = "medium"
 [projects."/home/syu/fortune-bell"]
 trust_level = "trusted"
 
-[tools]
-web_search = true
+[features]
+web_search_request = true
 
 [mcp_servers.context7]
 command = "npx"
