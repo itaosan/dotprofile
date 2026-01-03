@@ -40,6 +40,7 @@ ln -s "$settings_src" "$CLAUDE_HOME/settings.json"
 
 rm -rf "$CLAUDE_HOME/statusline-detailed.sh"
 ln -s "$statusline_src" "$CLAUDE_HOME/statusline-detailed.sh"
+chmod +x "$CLAUDE_HOME/statusline-detailed.sh"
 
 # Codex CLI 用リンク類
 rm -rf "$CODEX_HOME/prompts"
