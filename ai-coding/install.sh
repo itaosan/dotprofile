@@ -25,6 +25,7 @@ ln -s "$this_dir/codex/config.toml" "$CODEX_HOME/config.toml"
 commands_src="$this_dir/commands"
 agents_src="$this_dir/agents"
 settings_src="$this_dir/claude/settings.json"
+statusline_src="$this_dir/claude/statusline-detailed.sh"
 wsl_notify_src="$this_dir/wsl/windows-notify.sh"
 
 # Claude Code 専用リンク類
@@ -36,6 +37,9 @@ ln -s "$agents_src" "$CLAUDE_HOME/agents"
 
 rm -rf "$CLAUDE_HOME/settings.json"
 ln -s "$settings_src" "$CLAUDE_HOME/settings.json"
+
+rm -rf "$CLAUDE_HOME/statusline-detailed.sh"
+ln -s "$statusline_src" "$CLAUDE_HOME/statusline-detailed.sh"
 
 # Codex CLI 用リンク類
 rm -rf "$CODEX_HOME/prompts"

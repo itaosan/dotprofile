@@ -52,7 +52,8 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bunx ccusage statusline"
+    "command": "bash ~/.claude/statusline-detailed.sh"
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": true,
+  "model": "opus"
 }
