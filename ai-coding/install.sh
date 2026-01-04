@@ -24,6 +24,7 @@ ln -s "$this_dir/codex/config.toml" "$CODEX_HOME/config.toml"
 # 参照元（ai-coding配下に統一）
 commands_src="$this_dir/commands"
 agents_src="$this_dir/agents"
+skills_src="$this_dir/skills"
 settings_src="$this_dir/claude/settings.json"
 statusline_src="$this_dir/claude/statusline-detailed.sh"
 wsl_notify_src="$this_dir/wsl/windows-notify.sh"
@@ -34,6 +35,9 @@ ln -s "$commands_src" "$CLAUDE_HOME/commands"
 
 rm -rf "$CLAUDE_HOME/agents"
 ln -s "$agents_src" "$CLAUDE_HOME/agents"
+
+rm -rf "$CLAUDE_HOME/skills"
+ln -s "$skills_src" "$CLAUDE_HOME/skills"
 
 rm -rf "$CLAUDE_HOME/settings.json"
 ln -s "$settings_src" "$CLAUDE_HOME/settings.json"
