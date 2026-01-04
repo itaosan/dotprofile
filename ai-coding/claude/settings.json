@@ -54,6 +54,9 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-detailed.sh"
   },
+  "env": {
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1" 
+  },
   "alwaysThinkingEnabled": true,
   "model": "opus"
 }
