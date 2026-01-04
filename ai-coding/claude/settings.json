@@ -1,7 +1,8 @@
 {
   "cleanupPeriodDays": 60,
   "env": {
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "ENABLE_TOOL_SEARCH": "true"
   },
   "permissions": {
     "allow": [
@@ -63,7 +64,9 @@
     "typescript-lsp@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "example-skills@anthropic-agent-skills": true,
-    "document-skills@anthropic-agent-skills": true
+    "document-skills@anthropic-agent-skills": true,
+    "ralph-wiggum@claude-plugins-official": true,
+    "reviw-plugin@reviw-plugins": true
   },
   "alwaysThinkingEnabled": true
 }
