@@ -11,7 +11,6 @@ Gemini 3 Pro Image (Nano Banana Pro) を使用してWeb開発用アセットを�
 """
 
 import argparse
-import base64
 import json
 import os
 import sys
@@ -48,25 +47,30 @@ def load_api_key() -> str:
 def generate_image(
     prompt: str,
     output_path: str,
-    model: str = "gemini-2.0-flash-preview-image-generation",
+    model: str = "gemini-3-pro-image-preview",
     aspect_ratio: str = "1:1",
+    resolution: str | None = None,
 ) -> None:
     """Gemini APIで画像を生成して保存"""
     api_key = load_api_key()
 
     client = genai.Client(api_key=api_key)
 
+    print(f"モデル: {model}")
     print(f"画像を生成中: {prompt[:50]}{'...' if len(prompt) > 50 else ''}")
 
     try:
+        # ImageConfigの設定を構築
+        image_config_params = {"aspect_ratio": aspect_ratio}
+        if resolution:
+            image_config_params["image_size"] = resolution
+
         response = client.models.generate_content(
             model=model,
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_modalities=["IMAGE", "TEXT"],
-                image_generation_config=types.ImageGenerationConfig(
-                    aspect_ratio=aspect_ratio,
-                ),
+                image_config=types.ImageConfig(**image_config_params),
             ),
         )
 
@@ -114,12 +118,17 @@ def generate_image(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Gemini APIで画像アセットを生成",
+        description="Gemini APIで画像アセットを生成（Nano Banana Pro対応）",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
-  uv run --script %(prog)s -- --prompt "a cute cat icon" --output ./cat.png
-  uv run --script %(prog)s -- --prompt "website banner" --output ./banner.png --aspect-ratio 16:9
+  uv run --script %(prog)s --prompt "a cute cat icon" --output ./cat.png
+  uv run --script %(prog)s --prompt "website banner" --output ./banner.png --aspect-ratio 16:9
+  uv run --script %(prog)s --prompt "high-res poster" --output ./poster.png --resolution 4K
+
+モデル:
+  gemini-3-pro-image-preview   - Nano Banana Pro（高品質、デフォルト）
+  gemini-2.5-flash-image       - Nano Banana（高速）
 
 アスペクト比:
   1:1   - 正方形（アイコン、プロフィール画像）
@@ -127,6 +136,16 @@ def main():
   9:16  - 縦長（ストーリー、モバイル向け）
   4:3   - 標準横長
   3:4   - 標準縦長
+  3:2   - 写真横長
+  2:3   - 写真縦長
+  5:4   - やや横長
+  4:5   - やや縦長
+  21:9  - ウルトラワイド
+
+解像度（Nano Banana Proのみ）:
+  1K    - 標準解像度
+  2K    - 高解像度
+  4K    - 超高解像度
         """,
     )
     parser.add_argument(
@@ -141,14 +160,19 @@ def main():
     )
     parser.add_argument(
         "--model", "-m",
-        default="gemini-2.0-flash-preview-image-generation",
-        help="使用するモデル（デフォルト: gemini-2.0-flash-preview-image-generation）",
+        default="gemini-3-pro-image-preview",
+        help="使用するモデル（デフォルト: gemini-3-pro-image-preview）",
     )
     parser.add_argument(
         "--aspect-ratio", "-a",
         default="1:1",
-        choices=["1:1", "16:9", "9:16", "4:3", "3:4"],
+        choices=["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "5:4", "4:5", "21:9"],
         help="アスペクト比（デフォルト: 1:1）",
+    )
+    parser.add_argument(
+        "--resolution", "-r",
+        choices=["1K", "2K", "4K"],
+        help="解像度（Nano Banana Proのみ対応）",
     )
 
     args = parser.parse_args()
@@ -158,6 +182,7 @@ def main():
         output_path=args.output,
         model=args.model,
         aspect_ratio=args.aspect_ratio,
+        resolution=args.resolution,
     )
 
 
