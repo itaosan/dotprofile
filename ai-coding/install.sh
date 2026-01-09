@@ -27,6 +27,7 @@ agents_src="$this_dir/agents"
 skills_src="$this_dir/skills"
 settings_src="$this_dir/claude/settings.json"
 statusline_src="$this_dir/claude/statusline-detailed.sh"
+hooks_src="$this_dir/claude/hooks"
 wsl_notify_src="$this_dir/wsl/windows-notify.sh"
 
 # Claude Code 専用リンク類
@@ -45,6 +46,9 @@ ln -s "$settings_src" "$CLAUDE_HOME/settings.json"
 rm -rf "$CLAUDE_HOME/statusline-detailed.sh"
 ln -s "$statusline_src" "$CLAUDE_HOME/statusline-detailed.sh"
 chmod +x "$CLAUDE_HOME/statusline-detailed.sh"
+
+rm -rf "$CLAUDE_HOME/hooks"
+ln -s "$hooks_src" "$CLAUDE_HOME/hooks"
 
 # Codex CLI 用リンク類
 rm -rf "$CODEX_HOME/prompts"
