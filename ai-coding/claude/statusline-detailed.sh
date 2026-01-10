@@ -157,6 +157,11 @@ if [ -z "$ccusage" ]; then
   exit 1
 fi
 
+# Get monthly cost data
+current_month=$(date +%Y-%m)
+monthly_data=$(npx ccusage monthly --json 2>/dev/null || echo '{"monthly":[]}')
+monthly_cost=$(echo "$monthly_data" | jq -r --arg month "$current_month" '.monthly[] | select(.month == $month) | .totalCost // 0' 2>/dev/null || echo "0")
+
 # Get the assumed token limit from ccusage text output
 assumed_limit=$(extract_token_limit)
 if [ -z "$assumed_limit" ]; then
@@ -172,6 +177,39 @@ fi
 
 # Now Model
 model_name=$(echo "$claude_input" | jq -r '.model.display_name')                  # e.g: Sonnet 4
+
+# Project name from workspace.project_dir
+project_dir=$(echo "$claude_input" | jq -r '.workspace.project_dir // empty')
+if [ -n "$project_dir" ]; then
+  project_name=$(basename "$project_dir")
+else
+  # Fallback to cwd
+  cwd=$(echo "$claude_input" | jq -r '.cwd // empty')
+  if [ -n "$cwd" ]; then
+    project_name=$(basename "$cwd")
+  else
+    project_name="unknown"
+  fi
+fi
+
+# Get current git branch
+branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+# Context window info from Claude Code (session context usage)
+context_window_size=$(echo "$claude_input" | jq -r '.context_window.context_window_size // 200000')
+current_usage=$(echo "$claude_input" | jq -r '.context_window.current_usage // null')
+
+if [ "$current_usage" != "null" ]; then
+  context_input=$(echo "$current_usage" | jq -r '.input_tokens // 0')
+  context_cache_creation=$(echo "$current_usage" | jq -r '.cache_creation_input_tokens // 0')
+  context_cache_read=$(echo "$current_usage" | jq -r '.cache_read_input_tokens // 0')
+  context_total=$((context_input + context_cache_creation + context_cache_read))
+  context_percent=$(safe_math "$context_total / $context_window_size * 100")
+  context_percent=$(printf "%.1f" "$context_percent")
+else
+  context_total=0
+  context_percent="N/A"
+fi
 
 # Information
 id=$(echo "$active_block" | jq -r '.id')                                          # e.g: 2025-09-21T00:00:00.000Z
@@ -225,47 +263,94 @@ else
 fi
 
 # Output formatting
-model_str=$(printf "🤖 %s" "$model_name")
-cost_str=$(printf "💵 \$%.2f" "$cost")
-
-# Token with limit
-if [ "$assumed_limit" != "null" ] && [ "$assumed_limit" != "0" ]; then
-  token_str=$(printf "🔢 %s / %s (assuming)" "$(format_number_with_commas "$total_tokens")" "$(format_number_with_commas "$assumed_limit")")
+if [ -n "$branch_name" ]; then
+  project_str=$(printf "📁 %s (%s)" "$project_name" "$branch_name")
 else
-  token_str=$(printf "🔢 %s" "$(format_number_with_commas "$total_tokens")")
+  project_str=$(printf "📁 %s" "$project_name")
+fi
+model_str=$(printf "🤖 %s" "$model_name")
+cost_str=$(printf "💵 \$%.2f / \$%.2f" "$cost" "$monthly_cost")
+
+# Format tokens in short form (e.g., 10.4M)
+format_tokens_short() {
+  local tokens=$1
+  if [ "$tokens" -ge 1000000 ]; then
+    printf "%.1fM" "$(safe_math "$tokens / 1000000")"
+  elif [ "$tokens" -ge 1000 ]; then
+    printf "%.1fK" "$(safe_math "$tokens / 1000")"
+  else
+    printf "%d" "$tokens"
+  fi
+}
+
+# Context usage color indicator (for session context)
+if [ "$context_percent" != "N/A" ]; then
+  context_float=$(printf "%.0f" "$context_percent" 2>/dev/null || echo "0")
+  if [ "$context_float" -le 25 ]; then
+    context_indicator="🟢"
+  elif [ "$context_float" -le 50 ]; then
+    context_indicator="🟡"
+  elif [ "$context_float" -le 75 ]; then
+    context_indicator="🟠"
+  else
+    context_indicator="🔴"
+  fi
+else
+  context_indicator="⚪"
 fi
 
-# Usage percentage with color indicator
+# API usage color indicator (for burn rate)
 if [ "$usage_percent" != "N/A" ]; then
   usage_float=$(printf "%.0f" "$usage_percent" 2>/dev/null || echo "0")
   if [ "$usage_float" -le 25 ]; then
-    usage_indicator="🟢"
+    burn_indicator=""
   elif [ "$usage_float" -le 50 ]; then
-    usage_indicator="🟡"
+    burn_indicator=""
   elif [ "$usage_float" -le 75 ]; then
-    usage_indicator="🟠"
+    burn_indicator=""
   else
-    usage_indicator="🔴"
+    burn_indicator="\033[31m"  # Red for high usage
   fi
-  using_str=$(printf "%s %s%%" "$usage_indicator" "$usage_percent")
 else
-  using_str="📊 N/A"
+  usage_float=0
+  burn_indicator=""
 fi
 
 reset_str=$(printf "⏱️  %s" "$reset_time_str")
 
-# Burn rate indicator with percentage
-if [ "$tokens_per_minute_for_indicator" != "null" ]; then
-  burn_percentage=$(printf "%.0f" "$tokens_per_minute_for_indicator" 2>/dev/null || echo "0")
+# Context (session): 📊🟢 94.0K/200.0K (47.0%) - current session context window usage
+context_tokens_short=$(format_tokens_short "$context_total")
+context_limit_short=$(format_tokens_short "$context_window_size")
+if [ "$context_percent" != "N/A" ]; then
+  context_str=$(printf "📊%s %s/%s (%s%%)" "$context_indicator" "$context_tokens_short" "$context_limit_short" "$context_percent")
+else
+  context_str=$(printf "📊%s %s/%s" "$context_indicator" "$context_tokens_short" "$context_limit_short")
+fi
 
-  if [ "$burn_percentage" -gt 100 ]; then
-    burn_str=$(printf "🔥\033[31m %s%%\033[90m" "$burn_percentage")
+# API usage color indicator for burn rate
+if [ "$usage_percent" != "N/A" ]; then
+  if [ "$usage_float" -le 25 ]; then
+    api_indicator="🟢"
+  elif [ "$usage_float" -le 50 ]; then
+    api_indicator="🟡"
+  elif [ "$usage_float" -le 75 ]; then
+    api_indicator="🟠"
   else
-    burn_str=$(printf "🔥 %s%%" "$burn_percentage")
+    api_indicator="🔴"
   fi
 else
-  burn_str="🔥 N/A"
+  api_indicator="⚪"
+fi
+
+# Burn rate (API): 🔥🟢 597.6K/66.2M (0.9%) - 5-hour block API usage
+if [ "$assumed_limit" != "null" ] && [ "$assumed_limit" != "0" ]; then
+  api_tokens_short=$(format_tokens_short "$total_tokens")
+  api_limit_short=$(format_tokens_short "$assumed_limit")
+  burn_str=$(printf "🔥%s %s/%s (%s%%)" "$api_indicator" "$api_tokens_short" "$api_limit_short" "$usage_percent")
+else
+  api_tokens_short=$(format_tokens_short "$total_tokens")
+  burn_str=$(printf "🔥%s %s" "$api_indicator" "$api_tokens_short")
 fi
 
 # Output the status line
-printf "\033[90m%s │ %s │ %s │ %s │ %s │ %s" "$model_str" "$cost_str" "$token_str" "$using_str" "$burn_str" "$reset_str"
+printf "\033[90m%s │ %s │ %s │ %s │ %s │ %s" "$project_str" "$model_str" "$cost_str" "$context_str" "$burn_str" "$reset_str"
