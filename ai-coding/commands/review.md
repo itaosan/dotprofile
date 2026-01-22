@@ -19,7 +19,7 @@ CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレク
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. coderabbit --prompt-only でレビュー実行                  │
+│  1. coderabbit --prompt-only でレビュー実行           │
 │     ↓                                                       │
 │  2. レビュー結果を解析・表示                                 │
 │     ↓                                                       │
@@ -27,7 +27,7 @@ CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレク
 │     - 安全な修正 → 自動実行                                 │
 │     - 危険/異論あり → ユーザー確認                          │
 │     ↓                                                       │
-│  4. 再度 coderabbit --prompt-only でレビュー                │
+│  4. 再度 coderabbit --prompt-only でレビュー         │
 │     ↓                                                       │
 │  5. 指摘ゼロ or 最大3回まで 2-4 を繰り返す                  │
 │     ↓                                                       │
