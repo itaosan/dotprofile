@@ -19,6 +19,8 @@ CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレク
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
+│  0. code-simplifier でコードをシンプル化                    │
+│     ↓                                                       │
 │  1. coderabbit --prompt-only でレビュー実行           │
 │     ↓                                                       │
 │  2. レビュー結果を解析・表示                                 │
@@ -36,6 +38,22 @@ CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレク
 ```
 
 ## Execution Steps
+
+### Step 0: コードシンプル化
+
+レビュー実行前に、code-simplifier エージェントでコードをシンプル化する。
+
+Task tool で `code-simplifier:code-simplifier` エージェントを起動:
+- 最近変更されたコードを分析
+- 機能を保持しつつ、明確さ・一貫性・保守性を向上
+- 不要な複雑さやネスト、冗長なコードを削減
+
+シンプル化後に変更があった場合:
+```bash
+git add -A && git commit -m "Simplify code for clarity and maintainability"
+```
+
+**注意**: code-simplifier は機能を一切変更せず、コードの品質のみを向上させる。
 
 ### Step 1: 初期レビュー実行
 
