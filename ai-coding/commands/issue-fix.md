@@ -10,14 +10,15 @@ description: "Issue Fix: 自動実装→レビュー→マージワークフロ�
 ## 使用方法
 
 ```
-/issue-fix <issue番号>
+/issue-fix [issue番号]
 ```
 
-例: `/issue-fix 42`
+- 引数あり: `/issue-fix 42` → 指定したIssue #42 を修正
+- 引数なし: `/issue-fix` → 未対応Issueの一覧から選択
 
 ## 引数
 
-Issue番号: $ARGUMENTS
+Issue番号（オプション）: $ARGUMENTS
 
 ## ワークフロー概要
 
@@ -43,6 +44,35 @@ Issue番号: $ARGUMENTS
 ```
 
 ## 実行ステップ
+
+### Step 0: Issue番号の決定（引数がない場合）
+
+$ARGUMENTSが空または未指定の場合、以下のフローでIssueを選択する。
+
+#### 0-1. 未対応Issue一覧の取得
+
+```bash
+gh issue list --state open --json number,title,labels,assignees --limit 10
+```
+
+#### 0-2. ユーザーへの確認
+
+取得したIssue一覧を提示し、AskUserQuestionツールでユーザーに対象Issueを選択してもらう。
+
+提示形式の例:
+```
+未対応のIssueが見つかりました。どのIssueに対応しますか？
+
+#12: [Bug] ログイン時にエラーが発生する (labels: bug, priority:high)
+#15: [Feature] ダークモード対応 (labels: enhancement)
+#18: [Bug] 検索結果が正しく表示されない (labels: bug)
+```
+
+#### 0-3. 選択されたIssue番号でStep 1以降を実行
+
+ユーザーが選択したIssue番号を使用して以降のステップを実行する。
+
+---
 
 ### Step 1: Issue取得
 
