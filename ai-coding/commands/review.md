@@ -1,6 +1,6 @@
 # Review
 
-CodeRabbit CLI を使った自動レビュー＆修正サイクル
+CodeRabbit CLI を使った自動レビュー＆修正サイクル（Codex CLI フォールバック対応）
 
 ## Usage
 
@@ -15,13 +15,18 @@ CodeRabbit CLI を使った自動レビュー＆修正サイクル
 
 CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレクトリの変更をレビューし、指摘事項を自動修正するサイクルを実行する。
 
+**CodeRabbit がエラー（レートリミット、ネットワークエラー等）の場合は、Codex CLI (`codex review`) に自動フォールバックする。**
+
 ## Workflow
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  0. code-simplifier でコードをシンプル化                    │
 │     ↓                                                       │
-│  1. coderabbit --prompt-only でレビュー実行           │
+│  1. coderabbit --prompt-only でレビュー実行                 │
+│     ├─ 成功 → Step 2 へ                                     │
+│     └─ エラー → Codex CLI にフォールバック                  │
+│           (レートリミット、ネットワークエラー、認証エラー等) │
 │     ↓                                                       │
 │  2. レビュー結果を解析・表示                                 │
 │     ↓                                                       │
@@ -29,7 +34,7 @@ CodeRabbit CLI (`coderabbit --prompt-only`) を使用して、作業ディレク
 │     - 安全な修正 → 自動実行                                 │
 │     - 危険/異論あり → ユーザー確認                          │
 │     ↓                                                       │
-│  4. 再度 coderabbit --prompt-only でレビュー         │
+│  4. 再度レビュー実行（使用中のツールで継続）                 │
 │     ↓                                                       │
 │  5. 指摘ゼロ or 最大3回まで 2-4 を繰り返す                  │
 │     ↓                                                       │
@@ -55,17 +60,44 @@ git add -A && git commit -m "Simplify code for clarity and maintainability"
 
 **注意**: code-simplifier は機能を一切変更せず、コードの品質のみを向上させる。
 
-### Step 1: 初期レビュー実行
+### Step 1: 初期レビュー実行（CodeRabbit → Codex フォールバック）
+
+#### 1a. CodeRabbit を試行
 
 ```bash
 # 引数に応じてコマンドを構築
 coderabbit --prompt-only [--type <type>] [--base <branch>]
 ```
 
-- 引数なし: `coderabbit --prompt-only`
-- `uncommitted`: `coderabbit --prompt-only --type uncommitted`
-- `committed`: `coderabbit --prompt-only --type committed`
-- `--base <branch>`: `coderabbit --prompt-only --base <branch>`
+| 引数 | CodeRabbit コマンド |
+|-----|---------------------|
+| (なし) | `coderabbit --prompt-only` |
+| `uncommitted` | `coderabbit --prompt-only --type uncommitted` |
+| `committed` | `coderabbit --prompt-only --type committed` |
+| `--base <branch>` | `coderabbit --prompt-only --base <branch>` |
+
+#### 1b. CodeRabbit エラー時 → Codex にフォールバック
+
+以下のエラーを検出した場合、Codex CLI に切り替える：
+- **レートリミット**: `Rate limit exceeded` を含む出力
+- **ネットワークエラー**: `network`, `connection`, `timeout` を含むエラー
+- **認証エラー**: `auth`, `unauthorized`, `401`, `403` を含むエラー
+- **その他のエラー**: Exit code が 0 以外
+
+フォールバック時の対応コマンド：
+
+| 引数 | Codex コマンド |
+|-----|----------------|
+| (なし) | `codex review` |
+| `uncommitted` | `codex review --uncommitted` |
+| `committed` | `codex review --base HEAD~1` |
+| `--base <branch>` | `codex review --base <branch>` |
+
+**重要**: フォールバック発生時はユーザーに通知する：
+```
+⚠️ CodeRabbit エラー: [エラー理由]
+→ Codex CLI にフォールバックして続行します
+```
 
 ### Step 2: レビュー結果の解析
 
@@ -103,10 +135,19 @@ CodeRabbit の出力を解析し、以下を抽出：
 
 ### Step 4: 再レビュー
 
-修正後、再度 CodeRabbit を実行：
-```bash
-coderabbit --prompt-only [同じオプション]
-```
+修正後、**使用中のツール**で再度レビューを実行：
+
+- CodeRabbit 使用中の場合:
+  ```bash
+  coderabbit --prompt-only [同じオプション]
+  ```
+
+- Codex 使用中の場合（フォールバック後）:
+  ```bash
+  codex review [同じオプション]
+  ```
+
+**注意**: 一度フォールバックした場合、そのセッション内では Codex を継続使用する。
 
 ### Step 5: サイクル管理
 
@@ -170,12 +211,37 @@ Review complete!
 
 ## Prerequisites
 
-- CodeRabbit CLI がインストールされていること
+- **CodeRabbit CLI** がインストールされていること（プライマリ）
+- **Codex CLI** がインストールされていること（フォールバック用）
 - Git リポジトリ内で実行すること
 - 適切な認証設定がされていること
+
+### CLI インストール確認
+
+```bash
+# CodeRabbit CLI
+which coderabbit && coderabbit --version
+
+# Codex CLI
+which codex && codex --version
+```
 
 ## Notes
 
 - CodeRabbit の出力形式が変更された場合は解析ロジックの更新が必要
-- ネットワークエラー時は適切にリトライまたはエラー報告を行う
 - 大規模な変更がある場合は先に手動レビューを推奨
+
+### フォールバック動作
+
+- CodeRabbit がレートリミット等でエラーの場合、Codex CLI に自動フォールバック
+- フォールバック時はユーザーに通知メッセージを表示
+- 一度フォールバックした場合、そのセッション内では Codex を継続使用
+- **両方の CLI がエラーの場合**: レビューを中断し、ユーザーに状況を報告
+
+### ツール間の差異
+
+| 項目 | CodeRabbit | Codex |
+|-----|------------|-------|
+| 出力形式 | プレーンテキスト | マークダウン風 |
+| レートリミット | あり（無料版） | OpenAI APIリミットに依存 |
+| オフライン | 不可 | 不可 |
