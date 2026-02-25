@@ -79,7 +79,8 @@
     "reviw-plugin@reviw-plugins": true,
     "code-simplifier@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": true,
   "language": "japanese",
-  "plansDirectory": "./docs/plans"
+  "alwaysThinkingEnabled": true,
+  "plansDirectory": "./docs/plans",
+  "skipDangerousModePermissionPrompt": true
 }
