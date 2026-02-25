@@ -1,0 +1,16 @@
+{
+  "name": "playwright-skill",
+  "version": "1.0.0",
+  "description": "Playwright browser automation skill for Claude Code",
+  "main": "run.js",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
