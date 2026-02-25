@@ -35,6 +35,13 @@ node "$SKILL_DIR/run.js" /tmp/playwright-test-XXXX.js
 
 **重要**: スクリプトは必ず `/tmp/` に書き出すこと。スキルディレクトリには書き込まない。
 
+### Inline Execution（短いコード向け）
+
+```bash
+# ファイルを作らずに直接実行も可能
+node "$SKILL_DIR/run.js" 'const browser = await chromium.launch({ headless: true }); const page = await browser.newPage(); await page.goto("http://localhost:3000"); console.log(await page.title()); await browser.close();'
+```
+
 ## Common Patterns
 
 ### 1. ページテスト
@@ -117,6 +124,73 @@ await helpers.takeScreenshot(page, 'dev-server');
 await browser.close();
 ```
 
+### 5. リンク切れチェック
+
+```javascript
+const browser = await chromium.launch({ headless: true });
+const context = await helpers.createContext(browser);
+const page = await context.newPage();
+
+await page.goto('http://localhost:3000');
+await helpers.waitForPageReady(page);
+
+const links = await page.$$eval('a[href]', anchors =>
+  anchors.map(a => ({ text: a.textContent?.trim(), href: a.href }))
+);
+
+console.log(`Found ${links.length} links`);
+
+for (const link of links) {
+  try {
+    const res = await page.request.head(link.href);
+    if (res.status() >= 400) {
+      console.log(`BROKEN [${res.status()}]: ${link.href} ("${link.text}")`);
+    }
+  } catch (e) {
+    console.log(`ERROR: ${link.href} - ${e.message}`);
+  }
+}
+
+await browser.close();
+```
+
+### 6. スクリーンショット撮影（単体）
+
+```javascript
+const browser = await chromium.launch({ headless: true });
+const context = await helpers.createContext(browser);
+const page = await context.newPage();
+
+await page.goto('https://example.com');
+await helpers.waitForPageReady(page);
+
+// フルページスクリーンショット
+await helpers.takeScreenshot(page, '/tmp/fullpage', { fullPage: true });
+
+// 特定要素のスクリーンショット
+const element = await page.$('h1');
+if (element) {
+  await element.screenshot({ path: '/tmp/element-screenshot.png' });
+  console.log('Element screenshot saved');
+}
+
+await browser.close();
+```
+
+## Custom HTTP Headers
+
+環境変数で全リクエストにカスタムヘッダーを付与できる:
+
+```bash
+# 単一ヘッダー
+PW_HEADER_NAME="Authorization" PW_HEADER_VALUE="Bearer token123" node "$SKILL_DIR/run.js" /tmp/test.js
+
+# 複数ヘッダー（JSON形式）
+PW_EXTRA_HEADERS='{"Authorization":"Bearer token","X-Custom":"value"}' node "$SKILL_DIR/run.js" /tmp/test.js
+```
+
+`helpers.createContext()` を使えば自動で適用される。直接 `browser.newContext()` を使う場合は `getContextOptionsWithHeaders()` を呼ぶ。
+
 ## Available Helpers
 
 `helpers` オブジェクトで以下が利用可能:
@@ -146,3 +220,27 @@ cd <skill-dir> && npm run setup
 - スクリーンショットはカレントディレクトリに保存される
 - 認証が必要なページではcookieやlocalStorageのセットアップが必要
 - 詳細なAPIリファレンスは `API_REFERENCE.md` を参照
+
+## Troubleshooting
+
+### ブラウザが起動しない
+```bash
+# Chromiumを再インストール
+cd <skill-dir> && npx playwright install chromium
+```
+
+### モジュールが見つからない
+```bash
+# 依存関係を再インストール
+cd <skill-dir> && npm install
+```
+
+### タイムアウトエラー
+- `waitForPageReady` のtimeoutを延長: `{ timeout: 60000 }`
+- `networkidle` の代わりに `load` や `domcontentloaded` を使う:
+  ```javascript
+  await helpers.waitForPageReady(page, { waitUntil: 'load' });
+  ```
+
+### WSL環境でのヘッドレスモード
+WSL環境では `headless: true` が必須。GUIが必要な場合はWSLgまたはX11転送を設定すること。
