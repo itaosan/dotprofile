@@ -2,7 +2,8 @@
   "cleanupPeriodDays": 60,
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
-    "CLAUDE_CODE_ENABLE_TASKS": "1"
+    "CLAUDE_CODE_ENABLE_TASKS": "1" ,
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
     "allow": [
@@ -79,6 +80,7 @@
     "code-simplifier@claude-plugins-official": true
   },
   "language": "japanese",
+  "teammateMode": "auto",
   "alwaysThinkingEnabled": true,
   "plansDirectory": "./docs/plans",
   "skipDangerousModePermissionPrompt": true
