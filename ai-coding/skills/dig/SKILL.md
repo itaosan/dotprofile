@@ -13,7 +13,7 @@ allowed-tools:
   - TodoRead
   - TodoWrite
   - AskUserQuestion
-context: fork
+context: conversation
 agent: General-purpose
 argument-hint: <topic>
 ---
