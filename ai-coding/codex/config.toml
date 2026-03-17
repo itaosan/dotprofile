@@ -1,7 +1,7 @@
 model = "gpt-5-codex"
 model_reasoning_effort = "medium"
 
-[projects."/home/syu/fortune-bell"]
+[projects."/home/shusaku/fortune-bell"]
 trust_level = "trusted"
 
 [features]
