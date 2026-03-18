@@ -6,8 +6,9 @@ description: Generate PR description and automatically create pull request on Gi
 ## Context
 
 - Current git status: !`git status`
-- Changes in this PR: !`git diff master...HEAD`
-- Commits in this PR: !`git log --oneline master..HEAD`
+- Base branch: !`git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}' || git branch -r | grep -E 'origin/(main|master)' | sed 's|origin/||' | head -1`
+- Changes in this PR: !`BASE=$(git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}' || git branch -r | grep -E 'origin/(main|master)' | sed 's|origin/||' | head -1); git diff ${BASE}...HEAD`
+- Commits in this PR: !`BASE=$(git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}' || git branch -r | grep -E 'origin/(main|master)' | sed 's|origin/||' | head -1); git log --oneline ${BASE}..HEAD`
 - PR template: @.github/pull_request_template.md
 
 ## Your task
