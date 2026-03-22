@@ -82,5 +82,6 @@
   "alwaysThinkingEnabled": true,
   "plansDirectory": "./docs/plans",
   "skipDangerousModePermissionPrompt": true,
-  "teammateMode": "auto"
+  "teammateMode": "auto",
+  "effortLevel": "high"
 }
