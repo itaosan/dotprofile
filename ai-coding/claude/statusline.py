@@ -108,7 +108,7 @@ def main():
         parts = [f"📁 {project_name}"]
 
     model = data.get("model", {}).get("display_name", "Claude")
-    parts.append(f"{BOLD}{model}{R}")
+    parts.append(f"🤖 {BOLD}{model}{R}")
 
     # Cost
     session_cost, monthly_cost = fetch_ccusage()
