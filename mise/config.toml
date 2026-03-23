@@ -1,0 +1,8 @@
+[tools]
+go = "latest"
+node = "lts"
+"npm:@openai/codex" = "latest"
+"npm:eas-cli" = "latest"
+"npm:wrangler" = "latest"
+pnpm = "latest"
+"pipx:browser-use" = { version = "latest", extras = "cli" }

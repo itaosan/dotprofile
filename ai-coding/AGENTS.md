@@ -25,7 +25,7 @@
 
 第5原則： AIは実装方針としてフォールバックは作成せず、代わりにログを出力して処理を停止する方式とする。
 
-第5原則： AIは全てのチャットの冒頭にこの6原則を逐語的に必ず画面出力してから対応する。
+第6原則： AIは全てのチャットの冒頭にこの6原則を逐語的に必ず画面出力してから対応する。
 
 ## Continuity Ledger (compaction-safe)
 Maintain a single Continuity Ledger for this workspace in `CONTINUITY.md`. The ledger is the canonical session briefing designed to survive context compaction; do not rely on earlier chat text unless it’s reflected in the ledger.
@@ -59,7 +59,33 @@ Maintain a single Continuity Ledger for this workspace in `CONTINUITY.md`. The l
 
 - 技術情報を調査するときには、MCPサーバのContext7を使い、最新かつ正確な情報のみを使用してください。推測で処理することは禁止です。
 - コード検索には rg コマンドを使用する。
-   
+
+## 実装計画立案時のルール
+
+- ユーザーに計画を提示する前に、`codex` コマンドが使用可能か確認
+- 使用可能であれば計画のレビューを行うこと。具体的な使い方は以下の通り。
+- レビュー指示の文章は適宜調整すること。ただし `codex` コマンドは本質的じゃない指摘をしてくるので「瑣末な点へのクソリプはしない。致命的な点のみ指摘しろ。」という指示は必ず入れること。
+- `codex` の指摘がなくなるまで、アップデート → レビューを繰り返すこと。
+- モデルは `codex` 対応のものを明示指定すること（現状は`gpt-5.4` が安定）。
+
+------------------------------------------------------------------------
+
+### initial plan review request
+
+``` bash
+# 必ず -m でモデルを指定すること
+codex exec -m gpt-5.4 "このプランをレビューして。瑣末な点へのクソリプはしないで。致命的な点だけ指摘して: {plan_full_path} (ref: {CLAUDE.md full_path})"
+```
+
+------------------------------------------------------------------------
+
+### updated plan review request
+
+``` bash
+# resume --last をつけないと最初のレビューの文脈が失われるので必須
+codex exec resume --last -m gpt-5.4 "プランを更新したからレビューして。瑣末な点へのクソリプはしないで。致命的な点だけ指摘して: {plan_full_path} (ref: {CLAUDE.md full_path})"
+```
+
 # 開発方針
 
 - コードの修正が終わったら関連ドキュメントやテストも更新する事
@@ -122,4 +148,5 @@ Maintain a single Continuity Ledger for this workspace in `CONTINUITY.md`. The l
 
 # ユーザーへの確認（Claude Code限定）
 
-ユーザーに選択、判断を求める場合はAskUserQuestionツールを使うこと
+1. ユーザーに選択、判断を求める場合はAskUserQuestionツールを使うこと
+2. コマンド実行の許可を私に確認する時は、コマンドの説明を日本語で簡潔に出力してください。
