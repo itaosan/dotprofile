@@ -76,7 +76,8 @@
     "document-skills@anthropic-agent-skills": true,
     "ralph-wiggum@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
-    "duckdb-skills@duckdb-skills": true
+    "duckdb-skills@duckdb-skills": true,
+    "feature-dev@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "duckdb-skills": {
@@ -92,5 +93,6 @@
   "plansDirectory": "./docs/plans",
   "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "teammateMode": "auto"
+  "teammateMode": "auto",
+  "model": "opus[1m]"
 }
