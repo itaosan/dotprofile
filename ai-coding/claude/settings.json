@@ -21,6 +21,10 @@
       "LS(**)"
     ],
     "deny": [
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(python -m pip:*)",
+      "Bash(python3 -m pip:*)",
       "Bash(rm -rf /)",
       "Bash(sudo rm:*)",
       "Bash(format:*)",
