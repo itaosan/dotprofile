@@ -98,6 +98,7 @@ Maintain a single Continuity Ledger for this workspace in `CONTINUITY.md`. The l
 - 相手の発言やコードに対して、批判的な目線でも考えてみる
 - 自分の発言や変更したコードに対して、批判的な目線でも考えてみる
 - pwd コマンドで処理実行時にワーキングディレクトリを確かめる
+- Python のパッケージ管理には `uv` を使用する（pip/pip3 は使用禁止）
 
 # コミットの規律 [共通]
 
