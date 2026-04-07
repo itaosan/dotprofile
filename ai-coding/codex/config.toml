@@ -1,7 +1,10 @@
-model = "gpt-5-codex"
+model = "gpt-5.3-codex"
 model_reasoning_effort = "medium"
 
 [projects."/home/shusaku/fortune-bell"]
+trust_level = "trusted"
+
+[projects."/home/shusaku"]
 trust_level = "trusted"
 
 [features]
@@ -18,3 +21,6 @@ args = ["chrome-devtools-mcp@latest", "--isolated=true","--headless=true"]
 description = "Chrome DevTools MCP: run performance traces, inspect the DOM, and perform real-time debugging of your web pages — useful for browser automation, end-to-end testing, and capturing page artifacts."
 
 notify = ["powershell.exe", "-NoProfile", "-Command", "New-BurntToastNotification -Text 'Codex CLI','タスクが終わりました'"]
+
+[notice.model_migrations]
+gpt-5-codex = "gpt-5.3-codex"
