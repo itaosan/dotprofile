@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/dotprofile/ai-coding/notify.sh -t 'Claude Code' -m 'タスクが終わりました'"
+            "command": "bash ~/.claude/hooks/notify.sh -t 'Claude Code' -m 'タスクが終わりました'"
           }
         ]
       }
