@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 共通インストーラ: Claude Code と Codex CLI を一括セットアップ
+# Supports: macOS / Linux / WSL / Windows (Git Bash / MSYS2)
 
 set -euo pipefail
 
@@ -9,6 +10,13 @@ set -euo pipefail
 
 repo_root_dir="$(cd "$(dirname "$0")/.." && pwd)"
 this_dir="$(cd "$(dirname "$0")" && pwd)"
+
+# --- Windows (Git Bash / MSYS2): ネイティブシンボリックリンクを有効化 ---
+case "$(uname -s)" in
+  MINGW*|MSYS*)
+    export MSYS=winsymlinks:nativestrict
+    ;;
+esac
 
 mkdir -p "$CLAUDE_HOME" "$CODEX_HOME"
 
@@ -28,7 +36,6 @@ skills_src="$this_dir/skills"
 settings_src="$this_dir/claude/settings.json"
 statusline_src="$this_dir/claude/statusline.py"
 hooks_src="$this_dir/claude/hooks"
-wsl_notify_src="$this_dir/wsl/windows-notify.sh"
 
 # Claude Code 専用リンク類
 rm -rf "$CLAUDE_HOME/commands"
@@ -59,12 +66,11 @@ ln -s "$agents_src" "$CODEX_HOME/agents"
 # WSL 環境向けの通知スクリプト（共通）
 if [ -e "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" ]; then
   mkdir -p ~/bin
-  cp "$wsl_notify_src" ~/bin/windows-notify.sh
+  cp "$this_dir/wsl/windows-notify.sh" ~/bin/windows-notify.sh
   chmod +x ~/bin/windows-notify.sh
 fi
 
+echo ""
 echo "Setup completed:"
 echo "- Claude Code: $CLAUDE_HOME"
 echo "- Codex CLI : $CODEX_HOME"
-
-
