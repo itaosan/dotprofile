@@ -22,16 +22,25 @@
     ],
     "deny": [
       "Bash(rm -rf /)",
+      "Bash(rm -rf ~:*)",
       "Bash(sudo rm:*)",
       "Bash(format:*)",
-      "Read(node_modules/**)",
-      "Read(.git/**)",
-      "Read(*.log)",
-      "Read(dist/**)",
-      "Read(build/**)"
+      "Bash(:(){ :|:& };:*)",
+      "Bash(dd if=:*)"
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash C:/Users/ShusakuTomihisa/test/hook_debug.sh"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "",
