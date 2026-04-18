@@ -2,6 +2,12 @@
 CONTINUITY.md
 docs/plans/
 
+# Claude Code local state (worktrees, local settings)
+.claude/
+
+# mise project-local symlink (personal dev setup)
+/mise.toml
+
 # OS
 .DS_Store
 Thumbs.db
