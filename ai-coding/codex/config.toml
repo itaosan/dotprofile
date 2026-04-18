@@ -1,10 +1,13 @@
-model = "gpt-5.3-codex"
-model_reasoning_effort = "medium"
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
 
 [projects."/home/shusaku/fortune-bell"]
 trust_level = "trusted"
 
-[projects."/home/shusaku"]
+[projects."/Users/shusaku/dotprofile"]
+trust_level = "trusted"
+
+[projects."/Users/shusaku/monicrew"]
 trust_level = "trusted"
 
 [features]
@@ -22,5 +25,16 @@ description = "Chrome DevTools MCP: run performance traces, inspect the DOM, and
 
 notify = ["powershell.exe", "-NoProfile", "-Command", "New-BurntToastNotification -Text 'Codex CLI','タスクが終わりました'"]
 
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."superpowers@openai-curated"]
+enabled = true
+
 [notice.model_migrations]
-gpt-5-codex = "gpt-5.3-codex"
+gpt-5-codex = "gpt-5.4"
+
+[marketplaces.openai-bundled]
+last_updated = "2026-04-18T13:40:48Z"
+source_type = "local"
+source = "/Users/shusaku/.codex/.tmp/bundled-marketplaces/openai-bundled"
