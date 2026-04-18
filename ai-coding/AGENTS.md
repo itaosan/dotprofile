@@ -38,8 +38,6 @@
 
 第5原則： AIは実装方針としてフォールバックは作成せず、代わりにログを出力して処理を停止する方式とする。
 
-第6原則： AIは全てのチャットの冒頭にこの6原則を逐語的に必ず画面出力してから対応する。
-
 ## Continuity Ledger (compaction-safe)
 Maintain a single Continuity Ledger for this workspace in `CONTINUITY.md`. The ledger is the canonical session briefing designed to survive context compaction; do not rely on earlier chat text unless it's reflected in the ledger.
 
