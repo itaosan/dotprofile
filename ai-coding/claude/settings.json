@@ -76,7 +76,8 @@
     "reviw-plugin@reviw-plugins": true,
     "code-simplifier@claude-plugins-official": true,
     "duckdb-skills@duckdb-skills": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "superpowers@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "duckdb-skills": {
