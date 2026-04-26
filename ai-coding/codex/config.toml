@@ -1,5 +1,5 @@
-model = "gpt-5.4"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.5"
+model_reasoning_effort = "high"
 
 [projects."/home/shusaku/fortune-bell"]
 trust_level = "trusted"
@@ -8,6 +8,9 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/shusaku/monicrew"]
+trust_level = "trusted"
+
+[projects.'c:\users\syu\documents\lol_ai_tuber']
 trust_level = "trusted"
 
 [features]
@@ -31,10 +34,16 @@ enabled = true
 [plugins."superpowers@openai-curated"]
 enabled = true
 
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
 [notice.model_migrations]
 gpt-5-codex = "gpt-5.4"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-04-18T13:40:48Z"
+last_updated = "2026-04-26T13:22:51Z"
 source_type = "local"
-source = "/Users/shusaku/.codex/.tmp/bundled-marketplaces/openai-bundled"
+source = '\\?\C:\Users\syu\.codex\.tmp\bundled-marketplaces\openai-bundled'
+
+[windows]
+sandbox = "elevated"
