@@ -1,3 +1,5 @@
+# 日本語で応答して下さい。
+
 # マーカー規約 [共通]
 
 このファイルは Claude Code（CLAUDE.md）と Codex CLI（AGENTS.md）の両方で読まれる。
