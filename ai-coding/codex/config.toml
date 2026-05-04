@@ -34,6 +34,15 @@ enabled = true
 [plugins."superpowers@openai-curated"]
 enabled = true
 
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
 [plugins."browser-use@openai-bundled"]
 enabled = true
 
@@ -41,9 +50,14 @@ enabled = true
 gpt-5-codex = "gpt-5.4"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-04-26T13:22:51Z"
+last_updated = "2026-05-04T09:45:59Z"
 source_type = "local"
 source = '\\?\C:\Users\syu\.codex\.tmp\bundled-marketplaces\openai-bundled'
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-05-01T13:00:57Z"
+source_type = "local"
+source = '\\?\C:\Users\syu\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
 
 [windows]
 sandbox = "elevated"
