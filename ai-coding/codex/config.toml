@@ -1,5 +1,6 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
 
 [projects."/home/shusaku/fortune-bell"]
 trust_level = "trusted"
@@ -11,6 +12,9 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects.'c:\users\syu\documents\lol_ai_tuber']
+trust_level = "trusted"
+
+[projects."/Users/shusaku/Documents/Codex/2026-05-06/codex-browser-computer-use"]
 trust_level = "trusted"
 
 [features]
@@ -43,6 +47,9 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
 [plugins."browser-use@openai-bundled"]
 enabled = true
 
@@ -50,9 +57,9 @@ enabled = true
 gpt-5-codex = "gpt-5.4"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-04T09:45:59Z"
+last_updated = "2026-05-06T10:35:07Z"
 source_type = "local"
-source = '\\?\C:\Users\syu\.codex\.tmp\bundled-marketplaces\openai-bundled'
+source = "/Users/shusaku/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
 last_updated = "2026-05-01T13:00:57Z"
