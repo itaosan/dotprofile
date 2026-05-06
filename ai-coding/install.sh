@@ -33,6 +33,7 @@ ln -s "$this_dir/codex/config.toml" "$CODEX_HOME/config.toml"
 commands_src="$this_dir/commands"
 agents_src="$this_dir/agents"
 skills_src="$this_dir/skills"
+pets_src="$this_dir/pets"
 settings_src="$this_dir/claude/settings.json"
 statusline_src="$this_dir/claude/statusline.py"
 hooks_src="$this_dir/claude/hooks"
@@ -62,6 +63,17 @@ ln -s "$commands_src" "$CODEX_HOME/prompts"
 
 rm -rf "$CODEX_HOME/agents"
 ln -s "$agents_src" "$CODEX_HOME/agents"
+
+# Codex Desktop 用ペット
+mkdir -p "$CODEX_HOME/pets"
+if [ -d "$pets_src" ]; then
+  for pet_dir in "$pets_src"/*; do
+    [ -d "$pet_dir" ] || continue
+    pet_name="$(basename "$pet_dir")"
+    rm -rf "$CODEX_HOME/pets/$pet_name"
+    ln -s "$pet_dir" "$CODEX_HOME/pets/$pet_name"
+  done
+fi
 
 # WSL 環境向けの通知スクリプト（共通）
 if [ -e "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" ]; then
