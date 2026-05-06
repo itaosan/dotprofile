@@ -10,3 +10,4 @@ chmod +x ai-coding/install.sh
 - 共通エージェント定義: `ai-coding/AGENTS.md`（Claudeは `~/.claude/CLAUDE.md`、Codexは `~/.codex/AGENTS.md`）
 - スラッシュコマンド: `ai-coding/commands`（無ければ旧`claude/commands`） → Claude: `~/.claude/commands`、Codex: `~/.codex/prompts`
 - エージェント群: `ai-coding/agents`（無ければ旧`claude/agents`）
+- Codex ペット: `ai-coding/pets/<pet-name>` → Codex: `~/.codex/pets/<pet-name>`
