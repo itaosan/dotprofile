@@ -71,7 +71,8 @@ if [ -d "$pets_src" ]; then
     [ -d "$pet_dir" ] || continue
     pet_name="$(basename "$pet_dir")"
     rm -rf "$CODEX_HOME/pets/$pet_name"
-    ln -s "$pet_dir" "$CODEX_HOME/pets/$pet_name"
+    mkdir -p "$CODEX_HOME/pets/$pet_name"
+    cp -R "$pet_dir/." "$CODEX_HOME/pets/$pet_name/"
   done
 fi
 
