@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Changes"
+  short_description: "Prepare atomic verified commits with Japanese messages."
+  default_prompt: "Use $commit-changes to prepare and create a verified atomic commit."

@@ -2,6 +2,7 @@
 """Ring Meter statusline for Claude Code."""
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -40,29 +41,8 @@ def fmt_reset(resets_at):
 
 
 def fetch_ccusage():
-    proc_blocks = subprocess.Popen(
-        ["npx", "ccusage", "blocks", "--json", "--active"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    proc_monthly = subprocess.Popen(
-        ["npx", "ccusage", "monthly", "--json"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    blocks_out, blocks_err = proc_blocks.communicate(timeout=15)
-    if proc_blocks.returncode != 0:
-        sys.stderr.write(f"ERROR: ccusage blocks failed: {blocks_err.decode()}\n")
-        sys.exit(1)
-
-    monthly_out, monthly_err = proc_monthly.communicate(timeout=15)
-    if proc_monthly.returncode != 0:
-        sys.stderr.write(f"ERROR: ccusage monthly failed: {monthly_err.decode()}\n")
-        sys.exit(1)
-
-    blocks_data = json.loads(blocks_out)
-    monthly_data = json.loads(monthly_out)
+    blocks_data = run_ccusage_json(["blocks", "--json", "--active"])
+    monthly_data = run_ccusage_json(["monthly", "--json"])
 
     active = None
     for block in blocks_data.get("blocks", []):
@@ -83,6 +63,43 @@ def fetch_ccusage():
             break
 
     return session_cost, monthly_cost
+
+
+def run_ccusage_json(args):
+    npx = shutil.which("npx")
+    if npx is None:
+        sys.stderr.write("ERROR: npx not found. Install Node.js/npm or ensure npx is on PATH.\n")
+        sys.exit(1)
+
+    command = [npx, "ccusage", *args]
+    label = " ".join(args)
+    try:
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=15,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        sys.stderr.write(f"ERROR: failed to start npx: {exc}\n")
+        sys.exit(1)
+    except subprocess.TimeoutExpired:
+        sys.stderr.write(f"ERROR: ccusage {label} timed out\n")
+        sys.exit(1)
+
+    if result.returncode != 0:
+        stderr = result.stderr.decode(errors="replace").strip()
+        stdout = result.stdout.decode(errors="replace").strip()
+        detail = stderr or stdout or f"exit code {result.returncode}"
+        sys.stderr.write(f"ERROR: ccusage {label} failed: {detail}\n")
+        sys.exit(1)
+
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        sys.stderr.write(f"ERROR: ccusage {label} returned invalid JSON: {exc}\n")
+        sys.exit(1)
 
 
 def main():

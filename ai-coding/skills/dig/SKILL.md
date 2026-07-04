@@ -1,9 +1,7 @@
 ---
 name: dig
 description: |
-  計画やトピックの曖昧な点を構造化された質問で深掘りし、仕様を明確化する。
-  トリガー: "dig", "深掘り", "仕様を詰めたい", "曖昧な点を整理", "要件を明確化"
-  使用場面: (1) 新機能の仕様策定、(2) 設計方針の決定、(3) PRD/SPECの曖昧点解消、(4) 実装前の要件整理
+  Use when a plan, topic, PRD, SPEC, feature request, or design decision has ambiguous requirements that need structured questions before implementation.
 allowed-tools:
   - Write
   - Edit
@@ -13,9 +11,6 @@ allowed-tools:
   - TodoRead
   - TodoWrite
   - AskUserQuestion
-context: conversation
-agent: General-purpose
-argument-hint: <topic>
 ---
 
 # Dig: $ARGUMENTS
@@ -43,7 +38,8 @@ argument-hint: <topic>
 
 ## Phase 2: 構造化された質問の生成
 
-**AskUserQuestionツールを必ず使用すること。** 会話的な質問は禁止。
+利用可能なら AskUserQuestion や request_user_input などの構造化質問ツールを使う。
+構造化質問ツールがない環境では、短い番号付き質問として提示し、回答を待つ。
 
 <rules>
 - 質問数: **2-4問**（曖昧さのレベルに応じて調整）
@@ -85,7 +81,7 @@ argument-hint: <topic>
 
 ## 重要ルール
 
-- **必ず AskUserQuestion ツールを使う** — 会話形式の質問は禁止
+- 構造化質問ツールが利用可能なら優先して使う
 - 各選択肢に **メリット/デメリット** を必ず含める
 - 表面的な質問はせず、**実装上の難しい判断** に踏み込む
 - ユーザーが見落としている可能性のあるポイントを掘り出す

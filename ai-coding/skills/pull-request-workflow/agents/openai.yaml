@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pull Request Workflow"
+  short_description: "Draft, create, or update GitHub pull requests."
+  default_prompt: "Use $pull-request-workflow to draft, create, or update a pull request."

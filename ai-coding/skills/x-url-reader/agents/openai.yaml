@@ -1,0 +1,4 @@
+interface:
+  display_name: "X URL Reader"
+  short_description: "Read X/Twitter URLs through Jina Reader."
+  default_prompt: "Use $x-url-reader to read X or Twitter URLs through Jina Reader."

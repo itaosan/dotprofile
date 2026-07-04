@@ -1,11 +1,11 @@
 ---
 name: reviewing-skills
-description: Claude Codeスキルを公式ベストプラクティスに基づいてレビューします。SKILL.mdファイルのレビュー、スキル品質のチェック、スキル構造の検証、改善提案が必要な場合に使用します。「このスキルをレビューして」「スキル品質をチェック」「SKILL.mdを検証」「このスキルを改善」などのリクエストで起動します。
+description: Use when reviewing, validating, or improving an agent Skill, SKILL.md file, skill folder structure, or skill best-practice compliance for Claude Code, Codex, or shared skills.
 ---
 
 # スキルレビュー
 
-公式ベストプラクティスに基づいてスキルをレビューし、具体的な改善提案を行う。
+公式ベストプラクティスと共有 Skill の構成方針に基づいてスキルをレビューし、具体的な改善提案を行う。
 
 ## レビューワークフロー
 

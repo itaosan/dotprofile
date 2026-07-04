@@ -1,81 +1,53 @@
-# dotprofile
+# dotprofile Repository Guidance
 
-AIコーディングエージェント（Claude Code / Codex CLI）の設定を一元管理するdotfilesリポジトリ。
+- 日本語で応答すること。
+- このリポジトリは、AIコーディングエージェント向けの個人設定を一元管理する。
+- `ai-coding/` 配下は Claude Code / Codex / Codex CLI に配布する設定本体。
+- ルートの `AGENTS.md` / `CLAUDE.md` は、このリポジトリ自体を編集するエージェント向けの案内。
 
-## プロジェクト構造
+## 方針
 
-```
-dotprofile/
-├── ai-coding/          # Claude Code・Codex CLI共通設定
-│   ├── install.sh      # メインインストーラ（シンボリックリンク一括作成）
-│   ├── AGENTS.md       # 共通エージェント定義（CLAUDE.md / AGENTS.mdにリンク）
-│   ├── claude/         # Claude Code専用設定
-│   │   ├── settings.json
-│   │   ├── statusline.py
-│   │   └── hooks/
-│   ├── codex/          # Codex CLI専用設定
-│   │   └── config.toml
-│   ├── commands/       # スラッシュコマンド定義
-│   ├── agents/         # エージェント定義
-│   ├── skills/         # スキル定義
-│   └── wsl/            # WSL固有スクリプト
-├── mise/               # mise（ランタイムバージョン管理）
-│   ├── config.toml     # グローバルツール定義
-│   └── install.sh      # ~/.config/mise/config.toml へのシンボリックリンク作成
-└── npm/                # npm設定
-    ├── .npmrc          # グローバルnpmセキュリティ設定
-    └── install.sh      # ~/.npmrc へのシンボリックリンク作成
-```
+- 共通化できる作業手順は `ai-coding/skills/<skill-name>/SKILL.md` に寄せる。
+- Slash command は廃止方針。新規 command は追加しない。
+- 環境依存のMCP runtime pathやローカル生成設定はこのリポジトリでは管理しない。
+- 通知は Codex App / Claude Desktop / Claude Code の標準機能を優先し、独自通知スクリプトを増やさない。
+- `ai-coding/AGENTS.md` は常時ロードされる短い索引と基本方針に留める。
+- 長い手順、調査手順、コミット/PR規律、Python運用は Skill に置く。
 
-## セットアップ
+## 主要パス
 
-```bash
-# Claude Code + Codex CLI
-chmod +x ai-coding/install.sh && ./ai-coding/install.sh
-
-# mise
-chmod +x mise/install.sh && ./mise/install.sh
-
-# npm
-chmod +x npm/install.sh && ./npm/install.sh
-```
-
-## 設定追加のパターン（規約）
-
-新しいツールの設定を追加する場合は以下の規約に従う。
-
-1. `<tool>/` ディレクトリを作成
-2. `<tool>/<config-file>` に設定ファイルを配置
-3. `<tool>/install.sh` でホームディレクトリへのシンボリックリンクを作成
-4. README.md にセットアップ手順を追記
-
-### install.sh テンプレート
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-this_dir="$(cd "$(dirname "$0")" && pwd)"
-ln -snf "$this_dir/<config-file>" "$HOME/.<config-file>"
-echo "Symlink created: $HOME/.<config-file> -> <tool>/<config-file>"
-```
-
-## シンボリックリンク展開先一覧
-
-| リポジトリ内パス | リンク先 |
+| パス | 役割 |
 |---|---|
-| `ai-coding/AGENTS.md` | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` |
-| `ai-coding/claude/settings.json` | `~/.claude/settings.json` |
-| `ai-coding/claude/hooks/` | `~/.claude/hooks` |
-| `ai-coding/commands/` | `~/.claude/commands`, `~/.codex/prompts` |
-| `ai-coding/agents/` | `~/.claude/agents`, `~/.codex/agents` |
-| `ai-coding/skills/` | `~/.claude/skills` |
-| `ai-coding/codex/config.toml` | `~/.codex/config.toml` |
-| `mise/config.toml` | `~/.config/mise/config.toml` |
-| `npm/.npmrc` | `~/.npmrc` |
+| `ai-coding/AGENTS.md` | 配布先の `CLAUDE.md` / `AGENTS.md` になる共通エージェント定義 |
+| `ai-coding/skills/` | Claude Code と Codex で共有する Skill |
+| `ai-coding/claude/` | Claude Code 専用の settings / hooks / rules / statusline |
+| `ai-coding/codex/config.toml` | Codex 用のポータブルな初期設定テンプレート |
+| `ai-coding/install.sh` | 各ホームディレクトリへのリンク・初期設定展開 |
+| `README.md` | ユーザー向けの構成とセットアップ説明 |
 
-## 注意事項
+## 編集ルール
 
-- `ai-coding/install.sh` はシンボリックリンクを `ln -snf` で強制更新する（既存リンクを上書き）
-- WSL2環境では `windows-notify.sh` を `~/bin/` にコピーする処理が含まれる
-- Python パッケージ管理は `uv` を使用（`pip` 禁止）
+- コード検索には `rg` を使う。
+- 既存の未コミット変更はユーザー作業として扱い、勝手に戻さない。
+- `ai-coding/install.sh` の展開先を変えたら `README.md` も更新する。
+- Skill を追加・移動・削除したら、公式構成に合うか確認する。
+- Codex の `config.toml` には、ランタイムパス、trusted project、marketplace、通知コマンドなど環境依存値を入れない。
+- Python の実行や依存管理を扱う場合は `uv` を使い、`pip` / `pip3` は使わない。
+
+## 検証
+
+変更内容に応じて、少なくとも以下を確認する。
+
+```bash
+bash -n ai-coding/install.sh
+tmp_claude="$(mktemp -d)"
+tmp_codex="$(mktemp -d)"
+tmp_agents="$(mktemp -d)"
+CLAUDE_HOME="$tmp_claude" CODEX_HOME="$tmp_codex" AGENTS_HOME="$tmp_agents" ./ai-coding/install.sh
+```
+
+Pythonファイルを変更した場合は構文確認も行う。
+
+```bash
+uv run python -m py_compile <path>
+```

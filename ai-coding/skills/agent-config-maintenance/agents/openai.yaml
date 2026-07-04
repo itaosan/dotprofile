@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Config Maintenance"
+  short_description: "Maintain shared Claude and Codex agent configuration."
+  default_prompt: "Use agent-config-maintenance when editing ai-coding configuration."

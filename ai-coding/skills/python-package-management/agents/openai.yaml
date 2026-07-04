@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Package Management"
+  short_description: "Use uv for Python dependencies and scripts."
+  default_prompt: "Apply the Python package management rules for this repository."

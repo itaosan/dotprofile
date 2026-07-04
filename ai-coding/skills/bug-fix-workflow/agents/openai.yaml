@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bug Fix Workflow"
+  short_description: "Investigate, reproduce, and fix bugs."
+  default_prompt: "Use $bug-fix-workflow to investigate and fix this bug."

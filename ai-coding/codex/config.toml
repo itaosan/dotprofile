@@ -1,7 +1,16 @@
+# Portable Codex user config.
+#
+# Based on the current local config with environment-specific state removed.
+# Keep runtime paths, trusted projects, local marketplace state, directory
+# trust, and notification command paths in each user's local
+# ~/.codex/config.toml.
+
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
 approvals_reviewer = "auto_review"
+
+service_tier = "default"
 
 [auto_review]
 policy = """
@@ -16,71 +25,14 @@ If the approval context is too large or ambiguous, deny the automatic approval a
 max_threads = 3
 max_depth = 1
 
-[projects."/home/shusaku/fortune-bell"]
-trust_level = "trusted"
-
-[projects."/Users/shusaku/dotprofile"]
-trust_level = "trusted"
-
-[projects."/Users/shusaku/monicrew"]
-trust_level = "trusted"
-
-[projects.'c:\users\syu\documents\lol_ai_tuber']
-trust_level = "trusted"
-
-[projects.'c:\users\syu\documents\dotprofile']
-trust_level = "trusted"
-
-[projects.'c:\users\syu\documents\codex\2026-05-09\https-hermes-agent-nousresearch-com-pc']
-trust_level = "trusted"
-
-[projects.'c:\users\syu\documents\codex\2026-05-09\codex-cli']
-trust_level = "trusted"
-
-[projects.'c:\users\syu\documents\codex\2026-05-10\obs-twitch-youtube']
-trust_level = "trusted"
-
-[projects.'c:\users\syu']
-trust_level = "trusted"
-
-[projects.'c:\dev\stackchan']
-trust_level = "trusted"
-
-[projects.'c:\dev\hermes']
-trust_level = "trusted"
-
-[projects.'c:\dev\mystackchan']
-trust_level = "trusted"
-
 [features]
 web_search_request = true
 js_repl = false
 goals = true
 
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp"]
-
 [mcp_servers.chrome-devtools]
 command = "npx"
 args = ["chrome-devtools-mcp@latest", "--isolated=true", "--headless=true"]
-
-[mcp_servers.node_repl]
-args = []
-command = 'C:\Users\syu\AppData\Local\OpenAI\Codex\bin\3c238e29bbc930ff\node_repl.exe'
-startup_timeout_sec = 120
-
-[mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_MARKETPLACE_NAME = "openai-bundled"
-CODEX_CLI_PATH = 'C:\Users\syu\AppData\Local\OpenAI\Codex\bin\3f4fb8cdd344abc7\codex.exe'
-CODEX_HOME = 'C:\Users\syu\.codex'
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = 'C:\Users\syu\AppData\Local\OpenAI\Codex\bin\5b9024f90663758b\node.exe'
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "167fdf579477181fba1773c1efb067b00c5a64fe85dafb50a2001bde198dc739"
-NODE_REPL_TRUSTED_CODE_PATHS = 'C:\Users\syu\.codex'
-NODE_REPL_UNTRUSTED_ENV_ALLOWLIST = "BROWSER_USE_MARKETPLACE_NAME"
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
@@ -103,24 +55,20 @@ enabled = true
 [plugins."computer-use@openai-bundled"]
 enabled = true
 
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
 [plugins."browser@openai-bundled"]
 enabled = true
 
 [plugins."chrome@openai-bundled"]
 enabled = true
 
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
 [notice.model_migrations]
 gpt-5-codex = "gpt-5.4"
-
-[marketplaces.openai-bundled]
-last_updated = "2026-05-24T01:00:17Z"
-source_type = "local"
-source = '\\?\C:\Users\syu\.codex\.tmp\bundled-marketplaces\openai-bundled'
-
-[marketplaces.openai-primary-runtime]
-last_updated = "2026-05-22T14:00:50Z"
-source_type = "local"
-source = '\\?\C:\Users\syu\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
 
 [windows]
 sandbox = "elevated"
@@ -131,6 +79,9 @@ git-show-sidebar-pr-icons = true
 notifications-turn-mode = "always"
 selected-avatar-id = "custom:hoichan"
 conversationDetailMode = "STEPS_COMMANDS"
+keepRemoteControlAwakeWhilePluggedIn = true
+default-service-tier = "priority"
+followUpQueueMode = "queue"
 
 [desktop.open-in-target-preferences]
 global = "zed"

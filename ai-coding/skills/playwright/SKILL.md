@@ -27,7 +27,9 @@ Playwrightを使ったブラウザ自動化を実行するスキル。
 
 ```bash
 # スキルディレクトリのパスを取得
-SKILL_DIR="$(dirname "$(find ~/.claude -path '*/skills/playwright/run.js' -o -path '*/ai-coding/skills/playwright/run.js' 2>/dev/null | head -1)")"
+RUN_JS="$(find "$HOME/.claude" "$HOME/.agents" "./ai-coding/skills" -path '*/playwright/run.js' -print -quit 2>/dev/null)"
+test -n "$RUN_JS" || { echo "playwright skill run.js not found" >&2; exit 1; }
+SKILL_DIR="$(dirname "$RUN_JS")"
 
 # スクリプトを /tmp に書き出して実行
 node "$SKILL_DIR/run.js" /tmp/playwright-test-XXXX.js

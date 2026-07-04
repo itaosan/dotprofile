@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Planning"
+  short_description: "Plan work before implementation."
+  default_prompt: "Use task-planning to turn a request into an approved implementation plan."

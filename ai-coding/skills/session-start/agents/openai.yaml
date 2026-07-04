@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Start"
+  short_description: "Start coding sessions with repo state triage."
+  default_prompt: "Use session-start to inspect the current workspace before work begins."

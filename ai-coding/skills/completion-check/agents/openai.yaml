@@ -1,0 +1,4 @@
+interface:
+  display_name: "Completion Check"
+  short_description: "Verify work before reporting completion."
+  default_prompt: "Use completion-check before claiming a task is complete."

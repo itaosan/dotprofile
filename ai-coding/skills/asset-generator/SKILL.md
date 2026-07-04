@@ -10,10 +10,10 @@ Gemini 3 Pro Image (Nano Banana Pro) を使用してWeb開発用の画像アセ�
 
 ## 使用方法
 
-画像生成スクリプトを実行:
+この Skill ディレクトリへ移動して、同梱スクリプトを相対パスで実行:
 
 ```bash
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   --prompt "プロンプト" \
   --output ./出力パス.png \
   --aspect-ratio アスペクト比
@@ -72,27 +72,27 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
 
 ```bash
 # アプリアイコン
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   -p "a minimalist app icon, blue gradient circle with white lightning bolt, flat design" \
   -o ./icon.png
 
 # Webサイトバナー
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   -p "modern tech website hero banner, abstract geometric shapes, purple and blue gradient" \
   -o ./banner.png -a 16:9
 
 # OGP画像
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   -p "blog post OGP image about AI technology, futuristic design, dark background with glowing elements" \
   -o ./ogp.png -a 16:9
 
 # プロフィールアバター
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   -p "cute cartoon avatar, friendly developer character, simple illustration style" \
   -o ./avatar.png
 
 # 高解像度ポスター
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py \
+uv run --script scripts/generate_image.py -- \
   -p "professional tech conference poster, modern design" \
   -o ./poster.png -a 3:4 -r 4K
 ```

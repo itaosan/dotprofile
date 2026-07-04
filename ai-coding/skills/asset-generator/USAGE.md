@@ -37,8 +37,10 @@ export GEMINI_API_KEY="YOUR_API_KEY_HERE"
 
 ### 3. 動作確認
 
+この Skill ディレクトリへ移動してから実行:
+
 ```bash
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   --prompt "simple test icon" \
   --output /tmp/test.png
 ```
@@ -49,8 +51,10 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
 
 ### コマンド構文
 
+この Skill ディレクトリへ移動してから、同梱スクリプトを相対パスで実行します。
+
 ```bash
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- [オプション]
+uv run --script scripts/generate_image.py -- [オプション]
 ```
 
 ### 必須オプション
@@ -121,12 +125,12 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- [�
 
 ```bash
 # シンプルなアイコン
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "minimalist app icon, single geometric shape, blue gradient, white background, flat design" \
   -o ./app-icon.png
 
 # 3Dスタイルアイコン
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "3D rendered app icon, glossy sphere with lightning bolt, purple and blue, soft shadow" \
   -o ./app-icon-3d.png
 ```
@@ -135,12 +139,12 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
 
 ```bash
 # ヒーローバナー
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "modern website hero banner, abstract tech shapes, flowing lines, dark blue to purple gradient" \
   -o ./hero-banner.png -a 16:9
 
 # プロモーションバナー
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "sale promotion banner, bold typography space, vibrant orange and white, dynamic shapes" \
   -o ./promo-banner.png -a 16:9
 ```
@@ -149,12 +153,12 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
 
 ```bash
 # ブログ記事OGP
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "blog article OGP image, clean layout with text space on left, abstract illustration on right, professional blue theme" \
   -o ./blog-ogp.png -a 16:9
 
 # Twitter/X投稿画像
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "tech announcement graphic, futuristic design, glowing elements, dark background, space for headline" \
   -o ./twitter-card.png -a 16:9
 ```
@@ -163,12 +167,12 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
 
 ```bash
 # セクション区切り
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "decorative wave divider, flowing curves, gradient from blue to teal, minimal design" \
   -o ./divider.png -a 16:9
 
 # 背景パターン
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "subtle geometric pattern, repeating triangles, light gray on white, minimal opacity" \
   -o ./pattern.png
 ```
@@ -177,12 +181,12 @@ uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
 
 ```bash
 # キャラクターアバター
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "friendly cartoon avatar, developer character with headphones, simple illustration, warm colors" \
   -o ./avatar.png
 
 # 抽象的なプロフィール
-uv run --script ~/.claude/skills/asset-generator/scripts/generate_image.py -- \
+uv run --script scripts/generate_image.py -- \
   -p "abstract profile picture, geometric face made of polygons, colorful gradient, modern art style" \
   -o ./profile.png
 ```
