@@ -19,6 +19,7 @@
 - Web調査でX/Twitter URLを読むときは `x-url-reader` を使う。
 - 曖昧な仕様や計画を詰めるときは `dig` を使う。
 - Skill定義を確認・改善するときは `reviewing-skills` を使う。
+- プロジェクトを Claude Code / Codex 両対応（AGENTS.md / CLAUDE.md / skills共有）にするときは `project-config-sync` を使う。
 - ブラウザやWeb UIの動作確認には `playwright` を使う。
 - Webアセット画像が必要なときは `asset-generator` を使う。
 

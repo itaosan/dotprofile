@@ -46,6 +46,7 @@ chmod +x ai-coding/install.sh
 | `bug-fix-workflow` | バグを再現し、根本原因を修正して回帰確認する |
 | `completion-check` | 完了報告・コミット・PR前に差分と環境に合う検証を確認する |
 | `agent-config-maintenance` | `ai-coding/` 配下のClaude Code / Codex共通設定を保守する |
+| `project-config-sync` | プロジェクト内の AGENTS.md / CLAUDE.md / Skills を単一ソースで両ツール対応にする |
 | `python-package-management` | Python依存関係と実行方法を `uv` に統一する |
 | `commit-changes` | 検証済みの小さなコミットを日本語メッセージで作成する |
 | `pull-request-workflow` | Git差分から日本語PR本文を作成し、明示指示時にPRを作成・更新する |

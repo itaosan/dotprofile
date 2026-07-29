@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Config Sync"
+  short_description: "Single-source Claude Code and Codex setup in one project."
+  default_prompt: "Use project-config-sync to set up shared AGENTS.md, CLAUDE.md, and project skills."
