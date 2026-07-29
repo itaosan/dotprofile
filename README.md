@@ -54,6 +54,7 @@ chmod +x ai-coding/install.sh
 | `x-url-reader` | Web調査でX/Twitter URLをJina Reader経由で読む |
 | `dig` | 曖昧な仕様や計画を構造化質問で深掘りする |
 | `reviewing-skills` | Skill定義と構成をレビューする |
+| `codex-security` | OpenAI Codex Security CLIで脆弱性スキャンと結果対応を行う |
 | `playwright` | Web UIやブラウザ動作を確認する |
 | `asset-generator` | Gemini画像生成APIでWebアセットを生成する |
 
