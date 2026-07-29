@@ -3,7 +3,7 @@ name: codex-security
 description: |
   OpenAI Codex Security CLI（@openai/codex-security）でコードのセキュリティスキャンを実行するスキル。リポジトリ全体・差分・未コミット変更の脆弱性検出、結果レポートの解釈と修正対応、未導入環境のセットアップ支援を行う。
   トリガー: "codex-security", "セキュリティスキャン", "脆弱性スキャン", "脆弱性診断", "セキュリティ診断", "security scan", "vulnerability scan"
-  使用場面: (1) リポジトリ全体の脆弱性スキャン、(2) コミット・PR前の差分セキュリティチェック、(3) スキャン結果（findings）の確認と修正対応、(4) CLI未導入環境のセットアップ
+  使用場面: (1) リポジトリ全体の脆弱性スキャン、(2) push・PR作成前の差分セキュリティチェック（標準ゲート）、(3) スキャン結果（findings）の確認と修正対応、(4) CLI未導入環境のセットアップ
 ---
 
 # Codex Security Scan
@@ -85,8 +85,10 @@ npx codex-security scan . --output-dir codex-security-results
 | `--dry-run` | 実行内容の事前確認 |
 
 スコープ選択の目安:
-- コミット・PR前の確認 → `--working-tree` または `--diff`
+- push・PR作成前の確認（`commit-changes` / `pull-request-workflow` からの標準ゲート） → `--working-tree` または `--diff`
 - 初回・定期の棚卸し → リポジトリ全体（`--max-cost` の指定を推奨）
+
+push・PR前ゲートとして呼ばれた場合、ユーザーが明示的にスキップを選ぶか、送信対象の差分にコード変更がない（ドキュメント・設定のみ）ときはスキャンを省略してよい。省略した場合はその判断を報告に含める。
 
 ## Phase 3: 結果の確認と対応
 
