@@ -53,6 +53,8 @@ chmod +x ai-coding/install.sh
 | `find-docs` | ライブラリ、SDK、CLI、クラウドサービスの公式情報を確認する |
 | `x-url-reader` | Web調査でX/Twitter URLをJina Reader経由で読む |
 | `dig` | 曖昧な仕様や計画を構造化質問で深掘りする |
+| `grilling` | 計画・設計・意思決定を1問ずつ徹底インタビューして磨き上げる |
+| `grill-me` | `/grill-me` の明示呼び出しで `grilling` セッションを開始する |
 | `reviewing-skills` | Skill定義と構成をレビューする |
 | `codex-security` | OpenAI Codex Security CLIで脆弱性スキャンと結果対応を行う |
 | `playwright` | Web UIやブラウザ動作を確認する |
