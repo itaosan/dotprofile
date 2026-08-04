@@ -80,7 +80,7 @@
   "plansDirectory": "./docs/plans",
   "skipDangerousModePermissionPrompt": true,
   "statusLine": {
-    "command": "python3 ~/.claude/statusline.py",
+    "command": "mise exec -- uv run --no-project --python 3.13 ~/.claude/statusline.py",
     "type": "command"
   },
   "teammateMode": "auto"
