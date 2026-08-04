@@ -20,8 +20,10 @@ Create small, verified commits whose message matches the actual diff.
 7. Stage only the files for the current logical commit.
 8. Re-check `git diff --cached` before committing.
 9. Commit with an emoji conventional message in Japanese.
+<!-- codex-security は CLI の Windows cp932 バグにより一時無効化中（2026-08-04）。復活時はコメントを外し番号を振り直す。
 10. Before any push, run the `codex-security` skill against the outgoing changes (diff scope such as `--diff` or `--working-tree`). Skip only when the user explicitly waives the scan or the outgoing diff contains no code changes, and state that decision in the report.
-11. Push only when the user explicitly requested it.
+-->
+10. Push only when the user explicitly requested it.
 
 ## Commit Message
 

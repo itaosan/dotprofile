@@ -34,6 +34,24 @@ description: Maintain shared Claude Code and Codex agent configuration under ai-
 - Use `agents/openai.yaml` only when Codex App UI metadata, invocation policy, or tool dependencies are useful.
 - Prefer instruction-only Skills unless deterministic scripts are clearly useful and portable.
 
+## Validation Commands
+
+Run the checks that match the change.
+
+```bash
+bash -n ai-coding/install.sh
+tmp_claude="$(mktemp -d)"
+tmp_codex="$(mktemp -d)"
+tmp_agents="$(mktemp -d)"
+CLAUDE_HOME="$tmp_claude" CODEX_HOME="$tmp_codex" AGENTS_HOME="$tmp_agents" ./ai-coding/install.sh
+```
+
+For Python file changes:
+
+```bash
+uv run python -m py_compile <path>
+```
+
 ## Safety
 
 Do not remove or overwrite user-local Skills, config, or dirty repository changes unless the user explicitly asks.

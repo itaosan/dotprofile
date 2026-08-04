@@ -50,13 +50,14 @@ chmod +x ai-coding/install.sh
 | `python-package-management` | Python依存関係と実行方法を `uv` に統一する |
 | `commit-changes` | 検証済みの小さなコミットを日本語メッセージで作成する |
 | `pull-request-workflow` | Git差分から日本語PR本文を作成し、明示指示時にPRを作成・更新する |
+| `github-repo-setup` | GitHubリポジトリの新規作成とセキュリティ初期設定6項目を適用する |
 | `find-docs` | ライブラリ、SDK、CLI、クラウドサービスの公式情報を確認する |
 | `x-url-reader` | Web調査でX/Twitter URLをJina Reader経由で読む |
 | `dig` | 曖昧な仕様や計画を構造化質問で深掘りする |
 | `grilling` | 計画・設計・意思決定を1問ずつ徹底インタビューして磨き上げる |
 | `grill-me` | `/grill-me` の明示呼び出しで `grilling` セッションを開始する |
 | `reviewing-skills` | Skill定義と構成をレビューする |
-| `codex-security` | OpenAI Codex Security CLIで脆弱性スキャンと結果対応を行う |
+| `codex-security` | **一時無効化中**（CLI の Windows cp932 バグ。`SKILL.md.disabled` を戻せば復活）OpenAI Codex Security CLIで脆弱性スキャンと結果対応を行う |
 | `playwright` | Web UIやブラウザ動作を確認する |
 | `asset-generator` | Gemini画像生成APIでWebアセットを生成する |
 

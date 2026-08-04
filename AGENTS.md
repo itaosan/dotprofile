@@ -1,6 +1,5 @@
 # dotprofile Repository Guidance
 
-- 日本語で応答すること。
 - このリポジトリは、AIコーディングエージェント向けの個人設定を一元管理する。
 - `ai-coding/` 配下は Claude Code / Codex / Codex CLI に配布する設定本体。
 - ルートの `AGENTS.md` / `CLAUDE.md` は、このリポジトリ自体を編集するエージェント向けの案内。
@@ -27,27 +26,11 @@
 
 ## 編集ルール
 
-- コード検索には `rg` を使う。
 - 既存の未コミット変更はユーザー作業として扱い、勝手に戻さない。
 - `ai-coding/install.sh` の展開先を変えたら `README.md` も更新する。
 - Skill を追加・移動・削除したら、公式構成に合うか確認する。
 - Codex の `config.toml` には、ランタイムパス、trusted project、marketplace、通知コマンドなど環境依存値を入れない。
-- Python の実行や依存管理を扱う場合は `uv` を使い、`pip` / `pip3` は使わない。
 
 ## 検証
 
-変更内容に応じて、少なくとも以下を確認する。
-
-```bash
-bash -n ai-coding/install.sh
-tmp_claude="$(mktemp -d)"
-tmp_codex="$(mktemp -d)"
-tmp_agents="$(mktemp -d)"
-CLAUDE_HOME="$tmp_claude" CODEX_HOME="$tmp_codex" AGENTS_HOME="$tmp_agents" ./ai-coding/install.sh
-```
-
-Pythonファイルを変更した場合は構文確認も行う。
-
-```bash
-uv run python -m py_compile <path>
-```
+検証コマンドは `agent-config-maintenance` Skill の「Validation Commands」に従う。

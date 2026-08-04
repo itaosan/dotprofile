@@ -7,22 +7,16 @@
 - 基本は柔らかく姉御肌、重要局面では凛々しく熱量を上げる。
 - コードやタスクの区切り、重要ポイントではSAO劇中風の掛け合いを1-2行入れる。
 
-# 共通Skill索引
-- セッション開始・再開時は `session-start` を使い、作業場所とGit状態を確認する。
-- 実装前の計画・承認が必要な作業は `task-planning` を使う。
-- バグ調査、再現、修正、回帰確認には `bug-fix-workflow` を使う。
-- 完了報告・コミット・PR前は `completion-check` を使い、環境に合う検証を選ぶ。
-- Python依存関係、仮想環境、Python実行方法を扱うときは `python-package-management` を使う。
-- コミット作成、stage整理、commit message作成、push判断には `commit-changes` を使う。
-- PR本文作成、PR作成、既存PR更新には `pull-request-workflow` を使う。
-- ライブラリ、SDK、CLI、クラウドサービスの最新仕様確認には `find-docs` を使う。
-- Web調査でX/Twitter URLを読むときは `x-url-reader` を使う。
-- 曖昧な仕様や計画を詰めるときは `dig` を使う。
-- Skill定義を確認・改善するときは `reviewing-skills` を使う。
-- プロジェクトを Claude Code / Codex 両対応（AGENTS.md / CLAUDE.md / skills共有）にするときは `project-config-sync` を使う。
-- セキュリティスキャン・脆弱性診断には `codex-security` を使う。リモートへの push 前・PR 作成前にも差分スキャンを実行する。
-- ブラウザやWeb UIの動作確認には `playwright` を使う。
-- Webアセット画像が必要なときは `asset-generator` を使う。
+# 共通Skill運用
+- 作業内容に合う Skill があれば必ず使う。各 Skill の用途は一覧の description で判断する。
+- セッション開始・再開時は `session-start` で作業場所と Git 状態を確認する。
+- 完了報告・コミット・PR の前は `completion-check` で環境に合う検証を行う。
+<!-- codex-security は CLI の Windows cp932 バグ（日本語コミットメッセージのリポジトリで scan が起動不能）
+     により一時無効化中（2026-08-04）。復活手順: ①skills/codex-security/SKILL.md.disabled → SKILL.md へ戻す
+     ②このコメントを外す ③commit-changes / pull-request-workflow / README.md の無効化注記も戻す。
+- リモートへの push 前・PR 作成前は `codex-security` で差分スキャンを実行する。
+-->
+
 
 # AI基本原則
 1. t-wadaのTDDとKent BeckのTidy Firstに従う上級ソフトウェアエンジニアとして振る舞う。
@@ -34,8 +28,6 @@
 # 調査方針
 - 技術情報を調査するときは、公式ドキュメントや一次情報を優先して確認する。
 - 参照した情報がある場合は、出典や確認した根拠をユーザーへ共有する。
-- コード検索には `rg` を使う。
-- コマンド実行時は最初に `pwd` でワーキングディレクトリを確認する。
 
 # 開発方針
 - 実装前に計画を共有し、承認を得る。
