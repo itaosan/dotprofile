@@ -15,7 +15,7 @@ description: Verify work before reporting completion, committing, pushing, or op
    - JSON: parse with an available runtime such as Node.js
    - Markdown Skills: run the skill validator when available
    - install scripts: run against temporary HOME directories
-   - web UI: use the `playwright` skill or another available browser check
+   - web UI: use the built-in browser tools or another available browser check
    - unknown platform behavior: report the uncertainty instead of pretending a fixed script proves it
 5. Run the selected checks freshly.
 6. Read the outputs and exit codes.

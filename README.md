@@ -58,8 +58,6 @@ chmod +x ai-coding/install.sh
 | `grill-me` | `/grill-me` の明示呼び出しで `grilling` セッションを開始する |
 | `reviewing-skills` | Skill定義と構成をレビューする |
 | `codex-security` | **一時無効化中**（CLI の Windows cp932 バグ。`SKILL.md.disabled` を戻せば復活）OpenAI Codex Security CLIで脆弱性スキャンと結果対応を行う |
-| `playwright` | Web UIやブラウザ動作を確認する |
-| `asset-generator` | Gemini画像生成APIでWebアセットを生成する |
 
 ## 検証
 
