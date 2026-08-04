@@ -1,0 +1,20 @@
+# PR で追加・更新される依存関係に既知の脆弱性が無いかレビューする
+# public リポジトリ、または GitHub Code Security 有効な private リポジトリで動作する
+# https://github.com/actions/dependency-review-action
+name: Dependency review
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Dependency review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
