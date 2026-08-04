@@ -3,22 +3,30 @@ set -euo pipefail
 
 input="$(cat)"
 
-read_command_with_python() {
-  "$1" -c 'import json, sys; data = json.load(sys.stdin); print(data.get("tool_input", {}).get("command", ""))'
+# Windows では python3/python が Microsoft Store のスタブ（存在するが実行不可）のことがある。
+# command -v だけで選ぶとスタブを掴んで毎回失敗するため、jq を最優先し、
+# インタプリタは実行 probe が通ったものだけを使う。
+read_command() {
+  if command -v jq >/dev/null 2>&1; then
+    printf '%s' "$input" | jq -r '.tool_input.command // empty'
+    return 0
+  fi
+  local py
+  for py in python3 python; do
+    if command -v "$py" >/dev/null 2>&1 && "$py" -c 'pass' >/dev/null 2>&1; then
+      printf '%s' "$input" | "$py" -c 'import json, sys; data = json.load(sys.stdin); print(data.get("tool_input", {}).get("command", ""))'
+      return 0
+    fi
+  done
+  if command -v node >/dev/null 2>&1; then
+    printf '%s' "$input" | node -e 'const fs = require("fs"); const data = JSON.parse(fs.readFileSync(0, "utf8")); console.log(data?.tool_input?.command || "");'
+    return 0
+  fi
+  return 3
 }
 
-read_command_with_node() {
-  node -e 'const fs = require("fs"); const data = JSON.parse(fs.readFileSync(0, "utf8")); console.log(data?.tool_input?.command || "");'
-}
-
-if command -v python3 >/dev/null 2>&1; then
-  command="$(printf '%s' "$input" | read_command_with_python python3)"
-elif command -v python >/dev/null 2>&1; then
-  command="$(printf '%s' "$input" | read_command_with_python python)"
-elif command -v node >/dev/null 2>&1; then
-  command="$(printf '%s' "$input" | read_command_with_node)"
-else
-  echo "Bash hook could not parse tool input: python3, python, or node is required." >&2
+if ! command="$(read_command)"; then
+  echo "Bash hook could not parse tool input: jq, python3, python, or node is required." >&2
   exit 2
 fi
 
